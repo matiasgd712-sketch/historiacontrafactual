@@ -2,6 +2,7 @@ import type { Expediente } from "@/lib/expedientes";
 import { getCategoryBySlug } from "@/lib/site";
 import { formatDate } from "@/lib/format";
 import PlausibilityBadge from "./PlausibilityBadge";
+import PlausibilityInfo from "./PlausibilityInfo";
 
 export default function DossierHeader({ expediente }: { expediente: Expediente }) {
   return (
@@ -18,10 +19,16 @@ export default function DossierHeader({ expediente }: { expediente: Expediente }
       </div>
 
       {/* Ficha de clasificación */}
-      <dl className="grid grid-cols-2 gap-px border-t border-gris/30 bg-gris/20 text-xs sm:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-px border-t border-gris/30 bg-gris/20 text-xs sm:grid-cols-3">
         <div className="bg-negro px-5 py-4">
           <dt className="font-mono uppercase tracking-widest2 text-gris">Estado</dt>
           <dd className="mt-1 font-body text-sm text-marfil">{expediente.status}</dd>
+        </div>
+        <div className="bg-negro px-5 py-4">
+          <dt className="font-mono uppercase tracking-widest2 text-gris">Clasificación</dt>
+          <dd className="mt-1 font-body text-sm text-marfil">
+            {getCategoryBySlug(expediente.categories[0])?.name ?? "—"}
+          </dd>
         </div>
         <div className="bg-negro px-5 py-4">
           <dt className="font-mono uppercase tracking-widest2 text-gris">Nivel de acceso</dt>
@@ -31,7 +38,7 @@ export default function DossierHeader({ expediente }: { expediente: Expediente }
           <dt className="font-mono uppercase tracking-widest2 text-gris">Fecha de divergencia</dt>
           <dd className="mt-1 font-body text-sm text-marfil">{expediente.divergenceDate}</dd>
         </div>
-        <div className="bg-negro px-5 py-4">
+        <div className="bg-negro px-5 py-4 sm:col-span-2">
           <dt className="font-mono uppercase tracking-widest2 text-gris">Plausibilidad</dt>
           <dd className="mt-1 flex items-center gap-2">
             <PlausibilityBadge level={expediente.plausibility} />
@@ -39,6 +46,7 @@ export default function DossierHeader({ expediente }: { expediente: Expediente }
               <span className="font-mono text-[11px] text-beige/60">{expediente.plausibilityScore}</span>
             )}
           </dd>
+          <PlausibilityInfo />
         </div>
       </dl>
 
@@ -50,7 +58,7 @@ export default function DossierHeader({ expediente }: { expediente: Expediente }
         </div>
       )}
 
-      <dl className="grid grid-cols-2 gap-px border-t border-gris/30 bg-gris/20 text-xs sm:grid-cols-2">
+      <dl className="grid grid-cols-2 gap-px border-t border-gris/30 bg-gris/20 text-xs sm:grid-cols-3">
         <div className="bg-negro px-5 py-4">
           <dt className="font-mono uppercase tracking-widest2 text-gris">Lectura estimada</dt>
           <dd className="mt-1 font-body text-sm text-marfil">{expediente.readingMinutes} min</dd>
@@ -58,6 +66,12 @@ export default function DossierHeader({ expediente }: { expediente: Expediente }
         <div className="bg-negro px-5 py-4">
           <dt className="font-mono uppercase tracking-widest2 text-gris">Publicación</dt>
           <dd className="mt-1 font-body text-sm text-marfil">{formatDate(expediente.date)}</dd>
+        </div>
+        <div className="bg-negro px-5 py-4">
+          <dt className="font-mono uppercase tracking-widest2 text-gris">Última actualización</dt>
+          <dd className="mt-1 font-body text-sm text-marfil">
+            {formatDate(expediente.updated ?? expediente.date)}
+          </dd>
         </div>
       </dl>
 

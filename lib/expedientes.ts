@@ -19,6 +19,7 @@ export interface ExpedienteFrontmatter {
   divergenceDate: string;
   hypothesis?: string;
   date: string;
+  updated?: string;
   categories: CategorySlug[];
   image: string;
   bibliography: string[];

@@ -7,6 +7,65 @@ function inline(text: string): string {
     .replace(/\[\^(\w+)\]/g, '<sup class="ml-0.5"><a id="fnref-$1" href="#fn-$1" class="text-rojo no-underline">[$1]</a></sup>');
 }
 
+function renderTimeline(lines: string[]): string {
+  const items = lines
+    .map((l) => l.split("|").map((p) => p.trim()))
+    .filter((p) => p.length >= 2 && p[0]);
+
+  const rows = items
+    .map(
+      ([year, label]) =>
+        `<div class="border-l border-gris/30 pl-4"><p class="font-mono text-sm text-rojo">${inline(year)}</p><p class="mt-1 font-body text-sm text-beige/90 md:text-base">${inline(label)}</p></div>`
+    )
+    .join("\n");
+
+  return `<div class="my-8 space-y-4">${rows}</div>`;
+}
+
+function renderQuote(lines: string[]): string {
+  const paragraphs = lines
+    .filter((l) => l.trim() !== "")
+    .map((l) => `<p>${inline(l.trim())}</p>`)
+    .join("\n");
+
+  return `<blockquote class="my-10 border-l-2 border-rojo bg-negro/40 px-6 py-6 font-display text-xl uppercase tracking-wide leading-snug text-marfil md:text-2xl">${paragraphs}</blockquote>`;
+}
+
+function renderCivilization(name: string, lines: string[]): string {
+  const fields = lines
+    .map((l) => {
+      const m = l.match(/^([^:]+):\s*(.*)$/);
+      return m ? { label: m[1].trim(), value: m[2].trim() } : null;
+    })
+    .filter((f): f is { label: string; value: string } => !!f);
+
+  const cells = fields
+    .map(
+      (f) =>
+        `<div class="bg-negro px-5 py-3"><dt class="font-mono text-[10px] uppercase tracking-widest2 text-gris">${inline(f.label)}</dt><dd class="mt-1 font-body text-sm text-beige/90">${inline(f.value)}</dd></div>`
+    )
+    .join("\n");
+
+  return `<div class="my-8 border border-gris/30"><div class="border-b border-gris/30 bg-negro/40 px-5 py-3"><p class="font-display text-lg uppercase tracking-wide text-marfil">${inline(name)}</p></div><dl class="grid grid-cols-1 gap-px bg-gris/20 text-xs sm:grid-cols-2">${cells}</dl></div>`;
+}
+
+function renderRelated(lines: string[]): string {
+  const items = lines
+    .map((l) => l.split("|").map((p) => p.trim()))
+    .filter((p) => p.length >= 3 && p[0]);
+
+  const cards = items
+    .map(([code, title, target]) => {
+      if (target.toLowerCase() === "locked") {
+        return `<div class="border border-gris/30 px-4 py-3 opacity-60"><p class="font-mono text-[10px] uppercase tracking-widest2 text-gris">${inline(code)} · [ BLOQUEADO ]</p><p class="mt-1 font-body text-sm text-beige/70">${inline(title)}</p></div>`;
+      }
+      return `<a href="/expedientes/${target}" class="block border border-gris/30 px-4 py-3 transition-colors hover:border-rojo"><p class="font-mono text-[10px] uppercase tracking-widest2 text-rojo">${inline(code)}</p><p class="mt-1 font-body text-sm text-marfil">${inline(title)}</p></a>`;
+    })
+    .join("\n");
+
+  return `<div class="mt-12 border-t border-gris/30 pt-6"><p class="font-mono text-xs uppercase tracking-widest2 text-rojo">Archivos relacionados</p><div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">${cards}</div></div>`;
+}
+
 export default function MdxContent({ source }: { source: string }) {
   const lines = source.split("\n");
   const html: string[] = [];
@@ -20,7 +79,38 @@ export default function MdxContent({ source }: { source: string }) {
     }
   };
 
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    const fenceOpen = line.match(/^:::(\w+)\s*(.*)$/);
+    if (fenceOpen) {
+      closeList();
+      const [, type, arg] = fenceOpen;
+      const inner: string[] = [];
+      i++;
+      while (i < lines.length && lines[i].trim() !== ":::") {
+        inner.push(lines[i]);
+        i++;
+      }
+      switch (type) {
+        case "timeline":
+          html.push(renderTimeline(inner));
+          break;
+        case "quote":
+          html.push(renderQuote(inner));
+          break;
+        case "civilization":
+          html.push(renderCivilization(arg.trim(), inner));
+          break;
+        case "related":
+          html.push(renderRelated(inner));
+          break;
+        default:
+          break;
+      }
+      continue;
+    }
+
     const fnDef = line.match(/^\[\^(\w+)\]:\s*(.*)$/);
     if (fnDef) {
       closeList();

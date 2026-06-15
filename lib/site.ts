@@ -15,7 +15,10 @@ export type CategorySlug =
   | "imperios-perdidos"
   | "guerras-diferentes"
   | "ciencia-contrafactual"
-  | "futuro-contrafactual";
+  | "futuro-contrafactual"
+  | "encuentros-imposibles"
+  | "civilizaciones-alternativas"
+  | "grandes-divergencias";
 
 export const CATEGORIES: { slug: CategorySlug; name: string; description: string }[] = [
   {
@@ -47,6 +50,21 @@ export const CATEGORIES: { slug: CategorySlug; name: string; description: string
     slug: "futuro-contrafactual",
     name: "Futuro Contrafactual",
     description: "Proyecciones de futuros que pudieron derivarse de otros pasados.",
+  },
+  {
+    slug: "encuentros-imposibles",
+    name: "Encuentros Imposibles",
+    description: "Civilizaciones y potencias que jamás llegaron a cruzarse en la historia real.",
+  },
+  {
+    slug: "civilizaciones-alternativas",
+    name: "Civilizaciones Alternativas",
+    description: "Sociedades que tomaron caminos de desarrollo completamente distintos a los conocidos.",
+  },
+  {
+    slug: "grandes-divergencias",
+    name: "Grandes Divergencias",
+    description: "Los puntos de quiebre con mayor capacidad de transformar el curso completo de la historia.",
   },
 ];
 
