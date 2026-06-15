@@ -15,7 +15,7 @@ export default function CategoriasPage() {
           Categorías
         </h1>
         <p className="mt-2 font-body text-sm text-beige/70">
-          El archivo organiza los expedientes en seis líneas temáticas.
+          El archivo organiza los expedientes en nueve líneas temáticas.
         </p>
       </header>
       <div className="mt-8">
