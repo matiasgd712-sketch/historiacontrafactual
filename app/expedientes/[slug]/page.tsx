@@ -110,7 +110,7 @@ export default function ExpedientePage({ params }: Props) {
             <TableOfContents items={toc} />
             <div className="mt-6 border border-gris/30 bg-negro/40 p-5 font-mono text-xs uppercase tracking-widest2 text-gris">
               <p>Última revisión</p>
-              <p className="mt-1 text-marfil">{formatDate(expediente.date)}</p>
+              <p className="mt-1 text-marfil">{formatDate(expediente.updated ?? expediente.date)}</p>
             </div>
           </div>
         </aside>
