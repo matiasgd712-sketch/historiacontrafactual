@@ -1,12 +1,9 @@
 import { ImageResponse } from "next/og";
-import { getExpedienteBySlug, getExpedienteSlugs } from "@/lib/expedientes";
+import { getExpedienteBySlug } from "@/lib/expedientes";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-export function generateStaticParams() {
-  return getExpedienteSlugs().map((slug) => ({ slug }));
-}
+export const revalidate = 3600; // Revalidate every hour
 
 export default function Image({ params }: { params: { slug: string } }) {
   const expediente = getExpedienteBySlug(params.slug);
