@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #111111;
+  background-image:
+    linear-gradient(180deg, rgba(242, 233, 218, 0.02) 0%, transparent 100%);
+}
+
+::selection {
+  background-color: #B12A1E;
+  color: #F2E9DA;
+}
+
+/* Subtle paper-grain texture, generated with CSS only to keep load fast */
+.bg-archive-grain {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(242, 233, 218, 0.015) 0px,
+      rgba(242, 233, 218, 0.015) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+}
+
+a {
+  text-decoration-thickness: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
