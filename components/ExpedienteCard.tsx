@@ -3,7 +3,7 @@ import type { Expediente } from "@/lib/expedientes";
 import { getCategoryBySlug } from "@/lib/site";
 import { formatDate } from "@/lib/format";
 import PlausibilityBadge from "./PlausibilityBadge";
-import ArchivePlaceholder from "./ArchivePlaceholder";
+import ExpedienteImage from "./ExpedienteImage";
 
 export default function ExpedienteCard({ expediente }: { expediente: Expediente }) {
   return (
@@ -11,7 +11,13 @@ export default function ExpedienteCard({ expediente }: { expediente: Expediente 
       href={`/expedientes/${expediente.slug}`}
       className="group flex flex-col border border-gris/30 bg-negro/40 transition-colors hover:border-rojo"
     >
-      <ArchivePlaceholder variant={expediente.image} code={expediente.code} className="aspect-[4/3]" />
+      <ExpedienteImage
+        image={expediente.image}
+        code={expediente.code}
+        alt={expediente.title}
+        className="aspect-[4/3]"
+        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+      />
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest2 text-gris">
           <span className="text-rojo">{expediente.code}</span>

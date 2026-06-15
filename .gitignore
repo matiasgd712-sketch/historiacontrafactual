@@ -4,3 +4,6 @@ out
 .vercel
 *.log
 .env*.local
+
+# Material de referencia/moodboard, no usado por el sitio
+/Imagenes Generales/

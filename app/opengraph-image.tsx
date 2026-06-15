@@ -1,10 +1,15 @@
 import { ImageResponse } from "next/og";
+import fs from "fs";
+import path from "path";
 import { SITE } from "@/lib/site";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function Image() {
+  const isotipo = fs.readFileSync(path.join(process.cwd(), "public", "brand", "isotipo.png"));
+  const isotipoSrc = `data:image/png;base64,${isotipo.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -31,15 +36,8 @@ export default function Image() {
             textAlign: "center",
           }}
         >
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              backgroundColor: "#B12A1E",
-              marginBottom: 32,
-              clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-            }}
-          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={isotipoSrc} width={140} height={140} style={{ marginBottom: 32 }} />
           <div style={{ fontSize: 64, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase" }}>
             {SITE.name}
           </div>

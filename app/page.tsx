@@ -3,7 +3,7 @@ import Logo from "@/components/Logo";
 import SearchBar from "@/components/SearchBar";
 import CategoryList from "@/components/CategoryList";
 import ExpedienteCard from "@/components/ExpedienteCard";
-import ArchivePlaceholder from "@/components/ArchivePlaceholder";
+import ExpedienteImage from "@/components/ExpedienteImage";
 import PlausibilityBadge from "@/components/PlausibilityBadge";
 import { getAllExpedientes } from "@/lib/expedientes";
 import { SITE } from "@/lib/site";
@@ -43,10 +43,12 @@ export default function HomePage() {
           href={`/expedientes/${featured.slug}`}
           className="group mt-6 grid grid-cols-1 gap-0 border border-gris/30 bg-negro/40 transition-colors hover:border-rojo md:grid-cols-2"
         >
-          <ArchivePlaceholder
-            variant={featured.image}
+          <ExpedienteImage
+            image={featured.image}
             code={featured.code}
+            alt={featured.title}
             className="aspect-[4/3] md:aspect-auto md:h-full"
+            sizes="(min-width: 768px) 50vw, 100vw"
           />
           <div className="flex flex-col gap-4 p-6 md:p-10">
             <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest2 text-gris">

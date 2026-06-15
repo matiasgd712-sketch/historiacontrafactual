@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import fs from "fs";
+import path from "path";
 import { getExpedienteBySlug } from "@/lib/expedientes";
 
 export const size = { width: 1200, height: 630 };
@@ -7,6 +9,18 @@ export const revalidate = 3600; // Revalidate every hour
 
 export default function Image({ params }: { params: { slug: string } }) {
   const expediente = getExpedienteBySlug(params.slug);
+
+  let backgroundImage: string | undefined;
+  if (expediente.image.startsWith("/")) {
+    try {
+      const filePath = path.join(process.cwd(), "public", expediente.image);
+      const data = fs.readFileSync(filePath);
+      const ext = path.extname(filePath).slice(1);
+      backgroundImage = `data:image/${ext};base64,${data.toString("base64")}`;
+    } catch {
+      backgroundImage = undefined;
+    }
+  }
 
   return new ImageResponse(
     (
@@ -18,6 +32,13 @@ export default function Image({ params }: { params: { slug: string } }) {
           flexDirection: "column",
           justifyContent: "space-between",
           backgroundColor: "#111111",
+          ...(backgroundImage
+            ? {
+                backgroundImage: `linear-gradient(180deg, rgba(17,17,17,0.45) 0%, rgba(17,17,17,0.95) 100%), url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : {}),
           color: "#F2E9DA",
           fontFamily: "sans-serif",
           padding: 80,

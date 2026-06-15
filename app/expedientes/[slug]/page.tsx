@@ -13,6 +13,7 @@ import TableOfContents from "@/components/TableOfContents";
 import References from "@/components/References";
 import MdxContent from "@/components/MdxContent";
 import ExpedienteCard from "@/components/ExpedienteCard";
+import ExpedienteImage from "@/components/ExpedienteImage";
 
 interface Props {
   params: { slug: string };
@@ -87,6 +88,16 @@ export default function ExpedientePage({ params }: Props) {
       />
 
       <DossierHeader expediente={expediente} />
+
+      {expediente.image.startsWith("/") && (
+        <ExpedienteImage
+          image={expediente.image}
+          code={expediente.code}
+          alt={expediente.title}
+          className="mt-6 aspect-[16/10] w-full"
+          sizes="(min-width: 1024px) 800px, 100vw"
+        />
+      )}
 
       <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_280px]">
         <article className="order-2 lg:order-1">
