@@ -13,8 +13,11 @@ export interface ExpedienteFrontmatter {
   code: string;
   excerpt: string;
   status: string;
+  accessLevel?: string;
   plausibility: Plausibilidad;
+  plausibilityScore?: string;
   divergenceDate: string;
+  hypothesis?: string;
   date: string;
   categories: CategorySlug[];
   image: string;
