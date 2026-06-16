@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Logo from "@/components/Logo";
 import SearchBar from "@/components/SearchBar";
 import CategoryList from "@/components/CategoryList";
@@ -14,8 +15,21 @@ export default function HomePage() {
   const latest = all.filter((e) => e.slug !== featured.slug).slice(0, 6);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
-      {/* Identidad */}
+    <>
+      {/* Header Image */}
+      <div className="w-full">
+        <Image
+          src="/images/header.png"
+          alt="Header"
+          width={1920}
+          height={400}
+          priority
+          className="w-full h-auto"
+        />
+      </div>
+
+      <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+        {/* Identidad */}
       <section className="border border-gris/30 bg-archive-grain px-6 py-14 text-center sm:py-20">
         <div className="flex justify-center">
           <Logo size="lg" />
@@ -108,6 +122,18 @@ export default function HomePage() {
           <CategoryList />
         </div>
       </section>
-    </div>
+      </div>
+
+      {/* Footer Image */}
+      <div className="w-full mt-12">
+        <Image
+          src="/images/footer.png"
+          alt="Footer"
+          width={1920}
+          height={400}
+          className="w-full h-auto"
+        />
+      </div>
+    </>
   );
 }
